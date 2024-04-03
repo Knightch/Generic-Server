@@ -3,10 +3,11 @@ package com.demo.Generic.Server.controller;
 import com.demo.Generic.Server.model.Generic;
 import com.demo.Generic.Server.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/generic")
 public class GenericController {
 
     @Autowired
@@ -31,8 +32,8 @@ public class GenericController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteGeneric(String id){
+    public ResponseEntity<String> deleteGeneric(){
         genericService.sleep();
-        return "Deleted !";
+        return ResponseEntity.ok("Deleted item!");
     }
 }

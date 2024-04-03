@@ -5,4 +5,4 @@ cd target\dependency
 jar -xf ..\*.jar
 cd ..\..
 
-docker build -t ss-eefa/generic .
+docker build -t generic-server .

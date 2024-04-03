@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: generic
-  name: generic
+    app: generic-server
+  name: generic-server
   namespace: generic
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: generic
+      app: generic-server
   template:
     metadata:
       labels:
-        app: generic
+        app: generic-server
     spec:
       containers:
-        - name: generic
-          image: ss-eefa/generic
+        - name: generic-server
+          image: generic-server
           imagePullPolicy: Always
           env:
             - name: SPRING_PROFILES_ACTIVE
@@ -39,42 +39,42 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: generic
+  name: generic-server
   namespace: generic
   labels:
-    app: generic
+    app: generic-server
 spec:
   ports:
     - name: http
       port: 8080
       targetPort: 8080
   selector:
-    app: generic
+    app: generic-server
   type: LoadBalancer
 
 ---
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: generic
-  namespace: generic
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+#  name: generic-server
+#  namespace: generic
 #  annotations:
 #    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - local.eefa.io
-      secretName: local.eefa.io-ingress-tls
-  rules:
-    - host: local.eefa.io
-      http:
-        paths:
-          - path: /generic(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: generic
-                port:
-                  number: 8080
+#spec:
+#  ingressClassName: nginx
+#  tls:
+#    - hosts:
+#        - local.eefa.io
+#      secretName: local.eefa.io-ingress-tls
+#  rules:
+#    - host: local.eefa.io
+#      http:
+#        paths:
+#          - path: /generic(/|$)(.*)
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: generic
+#                port:
+#                  number: 8080
